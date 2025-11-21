@@ -1,12 +1,21 @@
 import type { App } from "vue"
-import HlButton from "./button"
+import ZyButton from "./button"
 
-const components = [HlButton]
+const components = [ZyButton]
 
-export { HlButton }
+export { ZyButton }
 
-export default {
+const ZyComponentLib: { install: (app: App) => void } = {
   install(app: App) {
     components.forEach((c) => app.use(c))
-  },
+  }
 }
+
+
+export default ZyComponentLib
+
+// export default {
+//   install(app: App) {
+//     components.forEach((c) => app.use(c))
+//   },
+// }

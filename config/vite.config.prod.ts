@@ -12,7 +12,7 @@ export default defineConfig({
     target: "modules",
     outDir: "dist",
     lib: {
-      entry: path.resolve(__dirname, "./packages/index.ts"),
+      entry: path.resolve(__dirname, "../packages/index.ts"),
       name: "ZyComponentLib",
       fileName: (format) => `zy-component-lib.${format}.js`,
       formats: ["es", "cjs", "umd"],
