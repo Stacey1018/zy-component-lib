@@ -9,7 +9,6 @@ import path from "path"
 export default defineConfig({
   plugins: [vue(), dts({ outDir: "dist/types" })],
   build: {
-    target: "modules",
     outDir: "dist",
     lib: {
       entry: path.resolve(__dirname, "../packages/index.ts"),

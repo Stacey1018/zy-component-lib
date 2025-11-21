@@ -1,0 +1,57 @@
+zy-component-lib
+├── README.md
+├── config
+│   └── vite.config.prod.ts
+├── dist
+│   └── vite.svg
+├── index.html
+├── package-lock.json
+├── package.json
+├── packages
+│   ├── button
+│   │   ├── index.ts
+│   │   ├── src
+│   │   │   └── button.vue
+│   │   └── style
+│   │       └── index.scss
+│   ├── index.ts
+│   ├── styles
+│   │   ├── index.scss
+│   │   └── variables.scss
+│   └── utils
+│       └── withInstall.ts
+├── play
+│   ├── README.md
+│   ├── index.html
+│   ├── package.json
+│   ├── pnpm-lock.yaml
+│   ├── public
+│   │   └── vite.svg
+│   ├── src
+│   │   ├── App.vue
+│   │   ├── assets
+│   │   │   └── vue.svg
+│   │   ├── components
+│   │   │   └── HelloWorld.vue
+│   │   ├── main.ts
+│   │   └── style.css
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   └── vite.config.ts
+├── pnpm-lock.yaml
+├── public
+│   └── vite.svg
+├── src
+│   ├── App.vue
+│   ├── assets
+│   │   └── vue.svg
+│   ├── components
+│   │   └── HelloWorld.vue
+│   ├── main.ts
+│   └── style.css
+├── tree-output.txt
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts

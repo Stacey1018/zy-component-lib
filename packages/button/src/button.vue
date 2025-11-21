@@ -1,5 +1,5 @@
 <template>
-  <button :class="['hl-button', `hl-button--${type}`]" @click="handleClick">
+  <button :class="['zy-button', `zy-button--${type}`]" @click="handleClick">
     <slot />
   </button>
 </template>
@@ -23,7 +23,7 @@ const handleClick = (e: MouseEvent) => emit('click', e)
 <style lang="scss" scoped>
 @use '../../styles/variables' as *;
 
-.hl-button {
+.zy-button {
   padding: 8px 16px;
   border-radius: 6px;
   color: #fff;
