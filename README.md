@@ -1,6 +1,10 @@
 # vue组件库
 
 先写一个最基础的组件库
+分支： feature-basic-demo
+
+当前先采用单库模式
+
 zy-component-lib
 ├── README.md
 ├── config
@@ -69,6 +73,61 @@ zy-component-lib
 ├── tsconfig.json
 ├── tsconfig.node.json
 └── vite.config.ts
+
+核心要点
+
+`vue.component`： 注册组件
+`vue.use`：安装插件
+
+packages/button/index.ts
+withInstall返回一个带有install方法的对象，是为了之后做部分引入或按需引入时使用
+packages/index.ts ：遍历组件进行注册，为了后续全量引入
+
+
+## play 
+用于测试组件库
+
+### 全量导入
+
+```js
+import './assets/main.css'
+
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+
+import App from './App.vue'
+import router from './router'
+import ZyComponentLib from '../../packages'
+
+const app = createApp(App)
+
+app.use(ZyComponentLib)
+app.use(createPinia())
+app.use(router)
+
+app.mount('#app')
+```
+
+### 单个导入
+
+```js
+import './assets/main.css'
+
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+
+import App from './App.vue'
+import router from './router'
+import {ZyButton} from "../../packages";
+const app = createApp(App)
+
+app.use(ZyButton)
+app.use(createPinia())
+app.use(router)
+app.mount('#app')
+
+```
+
 
 
 ## 
