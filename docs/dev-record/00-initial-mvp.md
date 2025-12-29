@@ -181,29 +181,41 @@ packages/index.ts ：遍历组件进行注册，为了后续全量引入
 
 ```
 
-其中
+### 发包
+
+> 发布过程中发现npm发布包需要配置_authToken，具体可看npm官网
 
 查看包是否可用
-npm view zy-component-lib 
+```shell
+npm view zy-component-lib
+``` 
 
 登录npm 
+```shell
 npm login
+```
 
 验证成功
+```shell
 npm whoami
-
+```
 
 查看将要发布的文件
+```shell
 npm pack --dry-run
+```
 
 确认版本号
+```shell
 npm version patch
+
+```
 
 
 发布普通包
+```shell
 npm publish --access public
-
-
+```
 
 
 ### pnpm link 
