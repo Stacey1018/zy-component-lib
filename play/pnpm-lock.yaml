@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  zy-component-lib: link:../../../../Library/pnpm/global/5/node_modules/zy-component-lib
+
 importers:
 
   .:
@@ -20,6 +23,9 @@ importers:
       vue-router:
         specifier: ^4.6.3
         version: 4.6.3(vue@3.5.24(typescript@5.9.3))
+      zy-component-lib:
+        specifier: link:../../../../Library/pnpm/global/5/node_modules/zy-component-lib
+        version: link:../../../../Library/pnpm/global/5/node_modules/zy-component-lib
     devDependencies:
       '@tsconfig/node22':
         specifier: ^22.0.2

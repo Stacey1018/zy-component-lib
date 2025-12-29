@@ -1,12 +1,27 @@
 {
   "name": "zy-component-lib",
-  "private": true,
-  "version": "0.0.0",
+  "private": false,
+  "version": "0.0.2",
   "type": "module",
+  "main": "./dist/zy-component-lib.cjs.js",
+  "module": "/dist/zy-fe-component.es.js",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/zy-component-lib.es.js",
+      "require": "./dist/zy-component-lib.cjs.js"
+    },
+    "./styles": "./dist/zy-component-lib.css"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build --config ./config/vite.config.prod.js",
     "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "vue": "^3.3.0"
   },
   "dependencies": {
     "vue": "^3.5.22"
