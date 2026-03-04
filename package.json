@@ -1,7 +1,7 @@
 {
   "name": "zy-component-lib",
   "private": false,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "main": "./dist/zy-component-lib.cjs.js",
   "module": "/dist/zy-fe-component.es.js",

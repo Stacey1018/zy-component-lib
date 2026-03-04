@@ -116,3 +116,7 @@ export default defineConfig({
 ```
 运行后效果
 ![图片](/docs/dev-record/images/3.jpg)
+
+
+# 安装npm包测试
+可参考项目test-zy-component，分支stage/01-on-demand-import
