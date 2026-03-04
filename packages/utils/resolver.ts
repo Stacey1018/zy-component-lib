@@ -1,10 +1,10 @@
-export default function ZyUIResolver() {
+export default function ZyElementResolver() {
   return {
-    resolvers: [
-      (componentName: string) => {
-        // where `componentName` is always CapitalCase
-        if (componentName.startsWith("Zy")) return { name: componentName.slice(3), from: "vant" }
-      },
-    ],
+    type: "component" as const,
+    resolve: (componentName: string) => {
+      console.log('componentName', componentName)
+      // where `componentName` is always CapitalCase
+      if (componentName.startsWith("Zy")) return { name: componentName, from: "zy-component-lib" }
+    },
   }
 }

@@ -264,3 +264,6 @@ app.use(ZyButton)
 ![图片](/docs/dev-record/images/1.jpg)
 
 
+
+### 安装npm包测试
+可参考项目test-zy-component，分支stage/00-initial-mvp

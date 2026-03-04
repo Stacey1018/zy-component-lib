@@ -15,11 +15,11 @@ import 'zy-component-lib/styles'
 // app.use(ZyComponentLib)
 
 // 部分引入
-import { ZyButton } from 'zy-component-lib'
+// import { ZyButton } from 'zy-component-lib'
 
 const app = createApp(App)
 
-app.use(ZyButton)
+// app.use(ZyButton)
 
 app.use(createPinia())
 app.use(router)

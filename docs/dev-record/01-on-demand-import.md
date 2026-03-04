@@ -13,15 +13,7 @@
 </template>
 
 <script>
-import { ElTable } from 'element-plus'
-import 'element-plus/es/components/table/style/css'
 
-export default {
-  name: 'App',
-  components: {
-    ElTable
-  }
-}
 </script>
 
 ```
@@ -48,7 +40,7 @@ export default {
 ```
 
 ## unplugin-vue-components
-[unplugin-vue-components](https://markdown.com.cn)为element-plus提供了`ElementPlusResolver`,同时支持我们自己编写resolver
+[unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components)为element-plus提供了`ElementPlusResolver`,同时支持我们自己编写resolver
 我们只要实现一个供自己组件库使用的resolver就可以了
 
 ## 实现
@@ -61,11 +53,66 @@ Components({
     (componentName) => {
       // where `componentName` is always CapitalCase
       if (componentName.startsWith('Van'))
-        return { name: componentName.slice(2), from: 'zy' }
+        return { name: componentName.slice(3), from: 'vant' }
     },
   ],
 })
 ```
 
 
-##
+## 自己实现
+
+`packages/utils/resolver.ts`
+```ts
+export default function ZyElementResolver() {
+  return {
+    resolvers: [
+      (componentName: string) => {
+        // where `componentName` is always CapitalCase
+        if (componentName.startsWith("Zy")) return { name: componentName, from: "zy-component-lib" }
+      },
+    ],
+  }
+}
+
+```
+
+在index.ts中导出
+```ts
+export {default as ZyElementResolver }  from "./utils/resolver"
+```
+
+
+### 在play中配置并测试按需引入
+
+```ts
+import { fileURLToPath, URL } from 'node:url'
+
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vueDevTools from 'vite-plugin-vue-devtools'
+import Components from 'unplugin-vue-components/vite'
+import { ZyElementResolver } from 'zy-component-lib'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [
+    vue(),
+    vueDevTools(),
+    Components({
+      resolvers: [
+        ZyElementResolver(),
+      ],
+    }),
+  ],
+
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    },
+  },
+})
+
+```
+运行后效果
+![图片](/docs/dev-record/images/3.jpg)

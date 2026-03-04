@@ -16,8 +16,5 @@ const ZyComponentLib: { install: (app: App) => void } = {
 
 export default ZyComponentLib
 
-// export default {
-//   install(app: App) {
-//     components.forEach((c) => app.use(c))
-//   },
-// }
+
+export {default as ZyElementResolver }  from "./utils/resolver"
