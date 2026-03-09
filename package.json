@@ -11,6 +11,7 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/zy-component-lib.es.js",
       "require": "./dist/zy-component-lib.cjs.js"
     },
