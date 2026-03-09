@@ -1,6 +1,15 @@
 # 组件按需加载
 
 ## 目标
+
+支持
+```TypeScript
+import { Button } from 'your-ui'
+```
+-tree shaking
+-组件单独打包
+-style 按需加载
+
 实现类似element-plus的按需导入
 ![alt text](./images/2.png)
 

@@ -3,7 +3,18 @@
 先写一个最基础的组件库
 分支： feature-basic-demo
 
-当前先采用单库模式
+# 基础初始化
+- vite 构建
+
+- tsconfig
+
+- eslint / prettier
+
+- 基础组件 Button
+
+- 打包发布能力
+
+- 采用单库模式
 
 zy-component-lib
 ├── README.md
