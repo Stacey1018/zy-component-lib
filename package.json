@@ -5,6 +5,7 @@
   "type": "module",
   "main": "./dist/zy-component-lib.cjs.js",
   "module": "/dist/zy-fe-component.es.js",
+  "types": "./dist/types/index.d.ts",
   "files": [
     "dist"
   ],
@@ -17,14 +18,15 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build --config ./config/vite.config.prod.js",
+    "build": "vite build --config ./config/vite.config.prod.ts",
     "preview": "vite preview"
   },
   "peerDependencies": {
     "vue": "^3.3.0"
   },
   "dependencies": {
-    "vue": "^3.5.22"
+    "vue": "^3.5.22",
+    "zy-component-lib": "link:../../../Library/pnpm/global/5/node_modules/zy-component-lib"
   },
   "devDependencies": {
     "@types/node": "^24.6.0",

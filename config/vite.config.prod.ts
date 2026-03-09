@@ -12,6 +12,8 @@ export default defineConfig({
       entryRoot: path.resolve(__dirname, "../packages"), // 类型文件入口根目录，插件会扫描 packages 下的所有 TS/组件文件
       outDir: "dist/types", // 类型文件输出目录为 dist/types
       // 生成的 .d.ts 文件会按照目录结构保存在 dist/types 下
+      insertTypesEntry: true, // 插入类型入口文件
+      tsconfigPath: path.resolve(__dirname, "../tsconfig.build.json"),
     }),
   ],
   build: {
