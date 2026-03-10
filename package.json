@@ -1,10 +1,9 @@
 {
   "name": "zy-component-lib",
-  "private": false,
-  "version": "0.0.3",
+  "version": "0.0.7",
   "type": "module",
-  "main": "./dist/zy-component-lib.cjs.js",
-  "module": "/dist/zy-fe-component.es.js",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.es.js",
   "types": "./dist/types/index.d.ts",
   "files": [
     "dist"
@@ -12,10 +11,13 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/zy-component-lib.es.js",
-      "require": "./dist/zy-component-lib.cjs.js"
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js"
     },
-    "./styles": "./dist/zy-component-lib.css"
+    "./styles": "./dist/index.css",
+    "./dist/index.css": {
+      "default": "./dist/index.css"
+    }
   },
   "scripts": {
     "dev": "vite",

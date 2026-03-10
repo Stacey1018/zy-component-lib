@@ -21,14 +21,17 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, "../packages/index.ts"), // 库入口文件
       name: "ZyComponentLib", // UMD/IIFE 模式下挂载到 window/global 的变量名
-      fileName: (format) => `zy-component-lib.${format}.js`, // 输出文件名，格式化为 es/cjs/umd
+      fileName: (format) => `index.${format}.js`, // 输出文件名，格式化为 es/cjs/umd
       formats: ["es", "cjs", "umd"], // 输出格式：ESModule、CommonJS、UMD
     },
     rollupOptions: {
       external: ["vue"], // 指定外部依赖，避免将 vue 打包进库
       output: {
         globals: { vue: "Vue" }, // UMD 全局变量映射，告诉 Rollup vue 在全局下叫 Vue
-        exports: "named" // 避免同时使用 default 和 named 导出时的警告
+        exports: "named", // 避免同时使用 default 和 named 导出时的警告
+        // 将提取的 CSS 输出为 index.css
+        assetFileNames: (assetInfo) =>
+          assetInfo.name?.endsWith(".css") ? "index.css" : "assets/[name]-[hash][extname]"
         // preserveModules: true,          // 如果开启，会保留原有目录结构，适合按需引入（注释掉表示不使用）
         // preserveModulesRoot: "packages", // preserveModules 时的根目录
       },

@@ -8,6 +8,7 @@
     },
     "include": [
       "packages/**/*.ts",
-      "packages/**/*.vue"
+      "packages/**/*.vue",
+      "packages/**/*.d.ts"
     ]
   }

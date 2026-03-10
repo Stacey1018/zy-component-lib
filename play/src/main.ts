@@ -5,7 +5,8 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
-import 'zy-component-lib/styles'
+
+import 'zy-component-lib/dist/index.css'
 
 // 全量引入
 // import ZyComponentLib from 'zy-component-lib'
