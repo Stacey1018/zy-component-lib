@@ -24,9 +24,12 @@ exports中也需要增加 "types": "./dist/types/index.d.ts",
 
 原因：一旦包用了 exports，Node/TypeScript 会只按 exports 解析，不会再看顶层的 types。你只在 "." 里写了 import 和 require，没有写 types，所以 TS 在“遵守 exports”的情况下找不到声明文件。
 
-##  样式引入报警告
+##  样式引入
 
-引入样式
+import 'zy-component-lib/styles' 这样引入会报ts警告
+
+
+改为
 
 ```js
 import 'zy-component-lib/dist/index.css'
