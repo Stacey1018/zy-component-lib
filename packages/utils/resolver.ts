@@ -4,7 +4,11 @@ export default function ZyElementResolver() {
     resolve: (componentName: string) => {
       console.log('componentName', componentName)
       // where `componentName` is always CapitalCase
-      if (componentName.startsWith("Zy")) return { name: componentName, from: "zy-component-lib" }
+      if (componentName.startsWith("Zy")) return {
+        name: componentName,
+        from: "zy-component-lib",
+        sideEffects: "zy-component-lib/dist/index.css"
+      }
     },
   }
 }

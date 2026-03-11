@@ -2,24 +2,45 @@ zy-component-lib
 ├── README.md
 ├── config
 │   └── vite.config.prod.ts
+├── dist
+│   ├── index.cjs.js
+│   ├── index.css
+│   ├── index.es.js
+│   ├── index.umd.js
+│   ├── types
+│   │   ├── button
+│   │   ├── index.d.ts
+│   │   └── utils
+│   └── vite.svg
+├── docs
+│   └── dev-record
+│       ├── 00-initial-mvp.md
+│       ├── 01-on-demand-import.md
+│       ├── 02-types-support.md
+│       ├── 03-style-on-demand.md
+│       └── images
 ├── index.html
 ├── package-lock.json
 ├── package.json
 ├── packages
 │   ├── button
-│   │   ├── index.ts              // 组件入口
+│   │   ├── index.ts
 │   │   ├── src
-│   │   │   └── button.vue        // 组件button源码
 │   │   └── style
-│   │       └── index.scss        // 组件样式
-│   ├── index.ts                  // 组件库入口
+│   ├── index.ts
 │   ├── styles
 │   │   ├── index.scss
 │   │   └── variables.scss
 │   └── utils
+│       ├── resolver.ts
 │       └── withInstall.ts
-├── play                          // 测试项目
+├── play
 │   ├── README.md
+│   ├── components.d.ts
+│   ├── dist
+│   │   ├── assets
+│   │   ├── favicon.ico
+│   │   └── index.html
 │   ├── env.d.ts
 │   ├── eslint.config.ts
 │   ├── index.html
@@ -30,22 +51,11 @@ zy-component-lib
 │   ├── src
 │   │   ├── App.vue
 │   │   ├── assets
-│   │   │   ├── base.css
-│   │   │   ├── logo.svg
-│   │   │   └── main.css
 │   │   ├── components
-│   │   │   ├── HelloWorld.vue
-│   │   │   ├── TheWelcome.vue
-│   │   │   ├── WelcomeItem.vue
-│   │   │   └── icons
 │   │   ├── main.ts
 │   │   ├── router
-│   │   │   └── index.ts
 │   │   ├── stores
-│   │   │   └── counter.ts
 │   │   └── views
-│   │       ├── AboutView.vue
-│   │       └── HomeView.vue
 │   ├── tsconfig.app.json
 │   ├── tsconfig.json
 │   ├── tsconfig.node.json
@@ -63,6 +73,7 @@ zy-component-lib
 │   └── style.css
 ├── tree-output.txt
 ├── tsconfig.app.json
+├── tsconfig.build.json
 ├── tsconfig.json
 ├── tsconfig.node.json
 └── vite.config.ts

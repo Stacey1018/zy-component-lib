@@ -20,17 +20,3 @@ const emit = defineEmits<{
 const handleClick = (e: MouseEvent) => emit('click', e)
 </script>
 
-<style lang="scss" scoped>
-@use '../../styles/variables' as *;
-
-.zy-button {
-  padding: 8px 16px;
-  border-radius: 6px;
-  color: #fff;
-  background-color: $color-primary;
-
-  &--success { background-color: $color-success; }
-  &--warning { background-color: $color-warning; }
-  &--danger { background-color: $color-danger; }
-}
-</style>
