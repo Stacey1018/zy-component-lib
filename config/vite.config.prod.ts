@@ -11,7 +11,7 @@ const entryFiles = await fg('**/*.{js,ts,vue}', {
   cwd: path.resolve(__dirname, '../packages'),
   absolute: true,
   onlyFiles: true,
-  ignore: ['**/__tests__/**'],
+  ignore: ['**/__tests__/**', '**/style/index.ts'],
 })
 
 console.log('entryFiles', entryFiles)
