@@ -1,3 +1,9 @@
+# 优化打包
+可以看到现在虽然满足了样式按需引入，但是打包后的文件dist/button/style/index.ts是ts文件
+
+所以我们要进行优化。
+
+```js
 import { defineConfig } from "vite" // 引入 Vite 官方方法，用于定义配置
 import vue from "@vitejs/plugin-vue" // 引入 Vue 插件，支持 .vue 文件的编译
 import dts from "vite-plugin-dts"    // 用于生成 TypeScript 类型声明文件 (.d.ts)
@@ -106,3 +112,8 @@ export default defineConfig({
     },
   },
 })
+```
+
+但是 文件packages/button/style/index.ts， 生成的 dist/button/style/index.es.js，内部是空的,因为packages/button/style/index.ts内部只有一行引入scss的语句，编译的时候，vite会单独处理css,导致打包后文件变空
+
+
