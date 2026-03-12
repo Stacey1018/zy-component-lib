@@ -1,6 +1,8 @@
 zy-component-lib
 ├── README.md
 ├── config
+│   ├── build-theme.ts
+│   ├── copy-style.ts
 │   └── vite.config.prod.ts
 ├── dist
 │   ├── button
@@ -12,21 +14,25 @@ zy-component-lib
 │   │   │   ├── button.vue.es.js
 │   │   │   └── button.vue.es2.js
 │   │   └── style
-│   │       └── index.ts
+│   │       ├── index.cjs.js
+│   │       ├── index.es.js
+│   │       └── index.js
 │   ├── index.cjs.js
 │   ├── index.es.js
 │   ├── theme
-│   │   ├── button.scss
-│   │   └── variables.scss
+│   │   └── button.css
 │   ├── types
 │   │   ├── button
 │   │   │   ├── index.d.ts
 │   │   │   ├── src
 │   │   │   └── style
+│   │   ├── button.vue.d.ts
 │   │   ├── index.d.ts
-│   │   └── utils
-│   │       ├── resolver.d.ts
-│   │       └── withInstall.d.ts
+│   │   ├── resolver.d.ts
+│   │   ├── utils
+│   │   │   ├── resolver.d.ts
+│   │   │   └── withInstall.d.ts
+│   │   └── withInstall.d.ts
 │   ├── utils
 │   │   ├── resolver.cjs.js
 │   │   ├── resolver.es.js
@@ -39,6 +45,7 @@ zy-component-lib
 │       ├── 01-on-demand-import.md
 │       ├── 02-types-support.md
 │       ├── 03-style-on-demand.md
+│       ├── 04-optimize-style-import.md
 │       └── images
 │           ├── 03
 │           ├── 1.jpg

@@ -22,7 +22,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build --config ./config/vite.config.prod.ts",
+    "build": "tsx ./config/build-theme.ts && vite build --config ./config/vite.config.prod.ts && tsx ./config/copy-style.ts",
     "preview": "vite preview"
   },
   "peerDependencies": {
@@ -36,6 +36,9 @@
     "@types/node": "^24.6.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
+    "fast-glob": "^3.3.3",
+    "sass": "^1.98.0",
+    "tsx": "^4.21.0",
     "typescript": "~5.9.3",
     "vite": "^7.1.7",
     "vite-plugin-dts": "^4.5.4",
