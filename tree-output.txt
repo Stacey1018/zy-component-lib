@@ -3,14 +3,35 @@ zy-component-lib
 ├── config
 │   └── vite.config.prod.ts
 ├── dist
+│   ├── button
+│   │   ├── index.cjs.js
+│   │   ├── index.es.js
+│   │   ├── src
+│   │   │   ├── button.vue.cjs.js
+│   │   │   ├── button.vue.cjs2.js
+│   │   │   ├── button.vue.es.js
+│   │   │   └── button.vue.es2.js
+│   │   └── style
+│   │       └── index.ts
 │   ├── index.cjs.js
-│   ├── index.css
 │   ├── index.es.js
-│   ├── index.umd.js
+│   ├── theme
+│   │   ├── button.scss
+│   │   └── variables.scss
 │   ├── types
 │   │   ├── button
+│   │   │   ├── index.d.ts
+│   │   │   ├── src
+│   │   │   └── style
 │   │   ├── index.d.ts
 │   │   └── utils
+│   │       ├── resolver.d.ts
+│   │       └── withInstall.d.ts
+│   ├── utils
+│   │   ├── resolver.cjs.js
+│   │   ├── resolver.es.js
+│   │   ├── withInstall.cjs.js
+│   │   └── withInstall.es.js
 │   └── vite.svg
 ├── docs
 │   └── dev-record
@@ -19,6 +40,10 @@ zy-component-lib
 │       ├── 02-types-support.md
 │       ├── 03-style-on-demand.md
 │       └── images
+│           ├── 03
+│           ├── 1.jpg
+│           ├── 2.png
+│           └── 3.png
 ├── index.html
 ├── package-lock.json
 ├── package.json
@@ -26,10 +51,14 @@ zy-component-lib
 │   ├── button
 │   │   ├── index.ts
 │   │   ├── src
+│   │   │   └── button.vue
 │   │   └── style
+│   │       └── index.ts
 │   ├── index.ts
 │   ├── styles
-│   │   ├── index.scss
+│   │   └── index.scss
+│   ├── theme
+│   │   ├── button.scss
 │   │   └── variables.scss
 │   └── utils
 │       ├── resolver.ts
@@ -39,6 +68,10 @@ zy-component-lib
 │   ├── components.d.ts
 │   ├── dist
 │   │   ├── assets
+│   │   │   ├── AboutView-BuwVLmia.js
+│   │   │   ├── AboutView-DhlS7raN.css
+│   │   │   ├── index-D_qyQoJp.js
+│   │   │   └── index-mt4R04p7.css
 │   │   ├── favicon.ico
 │   │   └── index.html
 │   ├── env.d.ts
@@ -51,11 +84,22 @@ zy-component-lib
 │   ├── src
 │   │   ├── App.vue
 │   │   ├── assets
+│   │   │   ├── base.css
+│   │   │   ├── logo.svg
+│   │   │   └── main.css
 │   │   ├── components
+│   │   │   ├── HelloWorld.vue
+│   │   │   ├── TheWelcome.vue
+│   │   │   ├── WelcomeItem.vue
+│   │   │   └── icons
 │   │   ├── main.ts
 │   │   ├── router
+│   │   │   └── index.ts
 │   │   ├── stores
+│   │   │   └── counter.ts
 │   │   └── views
+│   │       ├── AboutView.vue
+│   │       └── HomeView.vue
 │   ├── tsconfig.app.json
 │   ├── tsconfig.json
 │   ├── tsconfig.node.json
