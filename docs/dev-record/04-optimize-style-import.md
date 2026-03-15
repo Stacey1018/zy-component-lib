@@ -127,6 +127,8 @@ export default defineConfig({
 
 - 首先我们先处理下theme文件夹，之前是用插件将theme拷贝到了dist，现在我们将它编译后再放入dist
 
+`config/copy-style.ts`
+
 ```ts
 import * as sass from "sass"
 import fs from "fs"
