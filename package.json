@@ -22,13 +22,21 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsx ./config/build-theme.ts && vite build --config ./config/vite.config.prod.ts && tsx ./config/copy-style.ts",
+    "clean": "pnpm run clean:dist && pnpm run -r --parallel clean",
+    "clean:dist": "rimraf dist",
+    "build": "gulp -f ./internal/build/gulpfile.js",
     "preview": "vite preview"
   },
   "peerDependencies": {
     "vue": "^3.3.0"
   },
   "dependencies": {
+    "chalk": "^5.6.2",
+    "consola": "^3.4.2",
+    "gulp": "^5.0.1",
+    "gulp-rename": "^2.1.0",
+    "gulp-replace": "^1.1.4",
+    "gulp-sass": "^6.0.1",
     "vue": "^3.5.22",
     "zy-component-lib": "link:../../../Library/pnpm/global/5/node_modules/zy-component-lib"
   },
