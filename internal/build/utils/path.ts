@@ -4,4 +4,4 @@ import { fileURLToPath } from 'url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export const projRoot = resolve(__dirname, '..', '..', '..')
-export const buildRoot = resolve(projRoot, 'internal', 'build')
+export const buildRoot = resolve(projRoot)
