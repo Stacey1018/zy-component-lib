@@ -1,42 +1,40 @@
 import { build } from 'vite'
-import { defineConfig } from "vite" // 引入 Vite 官方方法，用于定义配置
 import vue from "@vitejs/plugin-vue" // 引入 Vue 插件，支持 .vue 文件的编译
 import dts from "vite-plugin-dts"    // 用于生成 TypeScript 类型声明文件 (.d.ts)
 import path from "path"
 import fg from "fast-glob"
+import { projRoot, pkgRoot } from '../utils/path.js'
 
-import { fileURLToPath } from 'url'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
-const packagesRoot = path.resolve(__dirname, "../packages")
-
-const entryFiles = await fg('**/*.{js,ts,vue}', {
-  cwd: path.resolve(__dirname, '../packages'),
-  absolute: true,
-  onlyFiles: true,
-  ignore: ['**/__tests__/**'],
-})
-
-console.log('entryFiles', entryFiles)
-
+let entryFiles: any
 
 // 把入口路径单独拿出来，方便在 lib.entry 和 rollupOptions.input 里复用
-const libEntry = path.resolve(__dirname, "../packages/index.ts")
+const libEntry = path.resolve(pkgRoot, "index.ts")
 console.log('libEntry', libEntry)
 // /Users/stacey/yuanmeng/yang/zy-component-lib/packages/index.ts
 
+const getEntryFiles = async () => {
+    return await fg('**/*.{js,ts,vue}', {
+        cwd: pkgRoot,
+        absolute: true,
+        onlyFiles: true,
+        ignore: ['**/__tests__/**'],
+    })
+}
 
-export const buildModules = async () => {
+
+export const buildModules = async() => {
+    entryFiles = await getEntryFiles()
+
     return build({
         plugins: [
             vue(), // 使用 Vue 插件
             dts({
-                entryRoot: path.resolve(__dirname, "../packages"), // 类型文件入口根目录，插件会扫描 packages 下的所有 TS/组件文件
+                entryRoot: pkgRoot, // 类型文件入口根目录，插件会扫描 packages 下的所有 TS/组件文件
                 outDir: "dist/types", // 类型文件输出目录为 dist/types
                 // 生成的 .d.ts 文件会按照目录结构保存在 dist/types 下
                 insertTypesEntry: true, // 插入类型入口文件
-                tsconfigPath: path.resolve(__dirname, "../tsconfig.build.json"),
+                tsconfigPath: path.resolve(projRoot, "tsconfig.build.json"),
             }),
         ],
         build: {
@@ -46,9 +44,6 @@ export const buildModules = async () => {
                 entry: entryFiles, // 库入口文件
                 name: "ZyComponentLib", // UMD/IIFE 模式下挂载到 window/global 的变量名
                 fileName: (format, entryName) => `${entryName}.${format}.js`,
-                // fileName: (format) => `index.${format}.js`, // 输出文件名，格式化为 es/cjs/umd
-                // formats: ["es", "cjs", "umd"], // 输出格式：ESModule、CommonJS、UMD
-                formats: ["es", "cjs"], // 输出格式：ESModule、CommonJS  umd会导致inlineDynamicImports为true,导致和preserveModules冲突
             },
             rollupOptions: {
                 external: ["vue"], // 指定外部依赖，避免将 vue 打包进库

@@ -23,7 +23,8 @@
   "scripts": {
     "dev": "vite",
     "clean": "rm -rf dist",
-    "build": "npm run clean && gulp -f ./internal/build/gulpfile.js",
+    "gulp": "node --import tsx node_modules/gulp/bin/gulp -f ./internal/build/gulpfile.ts",
+    "build": "npm run clean && npm run gulp",
     "preview": "vite preview"
   },
   "peerDependencies": {
