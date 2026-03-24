@@ -5,11 +5,11 @@ import path from "path"
 import fg from "fast-glob"
 import { series, parallel } from 'gulp'
 
-import { buildModules } from "./src/viteBuild"
+import { buildModules, buildModulesStyles } from "./tasks/modules"
 
 
 
 
 
 export default series(
-  buildModules)
+  buildModules, buildModulesStyles)
