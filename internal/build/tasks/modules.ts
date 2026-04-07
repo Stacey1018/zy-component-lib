@@ -207,7 +207,8 @@ export const buildModulesStyles = async () => {
         dir: path.resolve(config.output.path),
         exports: module === "cjs" ? "named" : undefined,
         preserveModules: true,
-        preserveModulesRoot: epRoot,
+        // 输入来自 packages/**，这里必须以 pkgRoot 作为根，才能保持输出目录结构
+        preserveModulesRoot: pkgRoot,
         sourcemap: true,
         entryFileNames: `[name].${config.ext}`,
       }

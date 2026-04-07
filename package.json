@@ -3,7 +3,7 @@
   "version": "0.0.7",
   "type": "module",
   "main": "./dist/lib/index.cjs",
-  "module": "./dist/es/index.mjs",
+  "module": "./dist/es/index.js",
   "types": "./dist/types/index.d.ts",
   "files": [
     "dist"
@@ -11,7 +11,7 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/es/index.mjs",
+      "import": "./dist/es/index.js",
       "require": "./dist/lib/index.cjs"
     },
     "./styles": "./dist/index.css",
