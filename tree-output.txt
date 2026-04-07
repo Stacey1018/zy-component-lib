@@ -5,40 +5,40 @@ zy-component-lib
 │   ├── copy-style.ts
 │   └── vite.config.prod.ts
 ├── dist
-│   ├── button
-│   │   ├── index.cjs.js
-│   │   ├── index.es.js
-│   │   ├── src
-│   │   │   ├── button.vue.cjs.js
-│   │   │   ├── button.vue.cjs2.js
-│   │   │   ├── button.vue.es.js
-│   │   │   └── button.vue.es2.js
-│   │   └── style
-│   │       ├── index.cjs.js
-│   │       ├── index.es.js
-│   │       └── index.js
-│   ├── index.cjs.js
-│   ├── index.es.js
-│   ├── theme
-│   │   └── button.css
-│   ├── types
+│   ├── es
 │   │   ├── button
-│   │   │   ├── index.d.ts
+│   │   │   ├── index.js
 │   │   │   ├── src
 │   │   │   └── style
-│   │   ├── button.vue.d.ts
-│   │   ├── index.d.ts
-│   │   ├── resolver.d.ts
-│   │   ├── utils
-│   │   │   ├── resolver.d.ts
-│   │   │   └── withInstall.d.ts
-│   │   └── withInstall.d.ts
-│   ├── utils
-│   │   ├── resolver.cjs.js
-│   │   ├── resolver.es.js
-│   │   ├── withInstall.cjs.js
-│   │   └── withInstall.es.js
-│   └── vite.svg
+│   │   ├── index.js
+│   │   ├── theme
+│   │   │   └── button.css
+│   │   └── utils
+│   │       ├── resolver.js
+│   │       └── withInstall.js
+│   ├── lib
+│   │   ├── button
+│   │   │   ├── index.cjs
+│   │   │   ├── src
+│   │   │   └── style
+│   │   ├── index.cjs
+│   │   ├── theme
+│   │   │   └── button.css
+│   │   └── utils
+│   │       ├── resolver.cjs
+│   │       └── withInstall.cjs
+│   └── types
+│       ├── button
+│       │   ├── index.d.ts
+│       │   ├── src
+│       │   └── style
+│       ├── button.vue.d.ts
+│       ├── index.d.ts
+│       ├── resolver.d.ts
+│       ├── utils
+│       │   ├── resolver.d.ts
+│       │   └── withInstall.d.ts
+│       └── withInstall.d.ts
 ├── docs
 │   └── dev-record
 │       ├── 00-initial-mvp.md
@@ -46,12 +46,24 @@ zy-component-lib
 │       ├── 02-types-support.md
 │       ├── 03-style-on-demand.md
 │       ├── 04-optimize-style-import.md
+│       ├── 05-gulp-build.md
 │       └── images
 │           ├── 03
+│           ├── 04
 │           ├── 1.jpg
 │           ├── 2.png
 │           └── 3.png
 ├── index.html
+├── internal
+│   └── build
+│       ├── gulpfile.ts
+│       ├── tasks
+│       │   └── modules.ts
+│       └── utils
+│           ├── gulp.ts
+│           ├── path.ts
+│           ├── process.ts
+│           └── rollup.ts
 ├── package-lock.json
 ├── package.json
 ├── packages
