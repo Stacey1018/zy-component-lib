@@ -12,15 +12,16 @@ export default defineConfig({
     vue(),
     vueDevTools(),
     Components({
-      resolvers: [
-        ZyElementResolver(),
-      ],
+      resolvers: [ZyElementResolver()],
     }),
   ],
 
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
+  },
+  server: {
+    port: 4001,
   },
 })

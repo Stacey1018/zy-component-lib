@@ -10,7 +10,7 @@ export default function ZyElementResolver() {
         return {
           name: componentName,
           from: "zy-component-lib",
-          sideEffects: `zy-component-lib/dist/${dirName}/style/index`,
+          sideEffects: `zy-component-lib/dist/es/${dirName}/style/index`,
         }
       }
     },

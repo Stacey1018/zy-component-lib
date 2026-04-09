@@ -11,8 +11,6 @@ zy-component-lib
 │   │   │   ├── src
 │   │   │   └── style
 │   │   ├── index.js
-│   │   ├── theme
-│   │   │   └── button.css
 │   │   └── utils
 │   │       ├── resolver.js
 │   │       └── withInstall.js
@@ -22,11 +20,12 @@ zy-component-lib
 │   │   │   ├── src
 │   │   │   └── style
 │   │   ├── index.cjs
-│   │   ├── theme
-│   │   │   └── button.css
 │   │   └── utils
 │   │       ├── resolver.cjs
 │   │       └── withInstall.cjs
+│   ├── theme
+│   │   ├── button.scss
+│   │   └── variables.scss
 │   └── types
 │       ├── button
 │       │   ├── index.d.ts
@@ -58,7 +57,9 @@ zy-component-lib
 │   └── build
 │       ├── gulpfile.ts
 │       ├── tasks
-│       │   └── modules.ts
+│       │   ├── modules copy.ts
+│       │   ├── modules.ts
+│       │   └── modules1.ts
 │       └── utils
 │           ├── gulp.ts
 │           ├── path.ts

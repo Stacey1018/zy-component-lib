@@ -18,7 +18,8 @@
     "./dist/index.css": {
       "default": "./dist/index.css"
     },
-    "./dist/*": "./dist/*"
+    "./dist/*": "./dist/*",
+    "./theme/*": "./dist/theme/*"
   },
   "scripts": {
     "dev": "vite",
