@@ -49,6 +49,7 @@
     "vue": "^3.5.22"
   },
   "devDependencies": {
+    "@rollup/plugin-alias": "^6.0.0",
     "@types/node": "^24.6.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",

@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  zy-component-lib: link:../../../Library/pnpm/global/5/node_modules/zy-component-lib
-
 importers:
 
   .:
@@ -53,10 +50,10 @@ importers:
       vue:
         specifier: ^3.5.22
         version: 3.5.24(typescript@5.9.3)
-      zy-component-lib:
-        specifier: link:../../../Library/pnpm/global/5/node_modules/zy-component-lib
-        version: link:../../../Library/pnpm/global/5/node_modules/zy-component-lib
     devDependencies:
+      '@rollup/plugin-alias':
+        specifier: ^6.0.0
+        version: 6.0.0(rollup@4.54.0)
       '@types/node':
         specifier: ^24.6.0
         version: 24.10.1
@@ -765,6 +762,15 @@ packages:
 
   '@rolldown/pluginutils@1.0.0-rc.11':
     resolution: {integrity: sha512-xQO9vbwBecJRv9EUcQ/y0dzSTJgA7Q6UVN7xp6B81+tBGSLVAK03yJ9NkJaUA7JFD91kbjxRSC/mDnmvXzbHoQ==}
+
+  '@rollup/plugin-alias@6.0.0':
+    resolution: {integrity: sha512-tPCzJOtS7uuVZd+xPhoy5W4vThe6KWXNmsFCNktaAh5RTqcLiSfT4huPQIXkgJ6YCOjJHvecOAzQxLFhPxKr+g==}
+    engines: {node: '>=20.19.0'}
+    peerDependencies:
+      rollup: '>=4.0.0'
+    peerDependenciesMeta:
+      rollup:
+        optional: true
 
   '@rollup/plugin-commonjs@29.0.2':
     resolution: {integrity: sha512-S/ggWH1LU7jTyi9DxZOKyxpVd4hF/OZ0JrEbeLjXk/DFXwRny0tjD2c992zOUYQobLrVkRVMDdmHP16HKP7GRg==}
@@ -3022,6 +3028,10 @@ snapshots:
   '@rolldown/pluginutils@1.0.0-beta.50': {}
 
   '@rolldown/pluginutils@1.0.0-rc.11': {}
+
+  '@rollup/plugin-alias@6.0.0(rollup@4.54.0)':
+    optionalDependencies:
+      rollup: 4.54.0
 
   '@rollup/plugin-commonjs@29.0.2(rollup@4.54.0)':
     dependencies:

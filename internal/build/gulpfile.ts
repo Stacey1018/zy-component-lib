@@ -7,4 +7,4 @@ import { series, parallel } from "gulp"
 
 import { buildModules, buildModulesStyles, copyScssFiles } from "./tasks/modules"
 
-export default series(buildModules, buildModulesStyles, copyScssFiles)
+export default series(buildModules, buildModulesStyles,copyScssFiles)

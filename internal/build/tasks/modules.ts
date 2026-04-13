@@ -9,10 +9,10 @@ import commonjs from "@rollup/plugin-commonjs"
 import esbuild from "rollup-plugin-esbuild"
 import VueMacros from "unplugin-vue-macros/rollup"
 import gulp from 'gulp'
-
 import { writeBundles } from "../utils/rollup"
 import { projRoot, pkgRoot, epRoot } from "../utils/path"
 import type { OutputOptions, Plugin } from "rollup"
+import { ZyComponentsLibAlias } from "../plugins/zy-components-lib-alias"
 
 let entryFiles: any
 
@@ -44,6 +44,11 @@ export const buildModules = async () => {
         tsconfigPath: path.resolve(projRoot, "tsconfig.build.json"),
       }),
     ],
+    resolve: {
+      alias: {
+        '@zy-component-lib': path.resolve(pkgRoot),
+      },
+    },
     build: {
       outDir: path.resolve(projRoot, "dist"), // 打包输出目录为 dist
       cssCodeSplit: true, // 按入口拆分 CSS，这样 button/style/index 会产出自己的 CSS，且 JS 里会带 import
@@ -141,7 +146,11 @@ const getStyleEntryFiles = async () => {
 
 export const target = "es2018"
 
+
+
+
 const plugins: Plugin[] = [
+  ZyComponentsLibAlias(),
   nodeResolve({
     extensions: [".mjs", ".js", ".json", ".ts"],
   }),
@@ -153,6 +162,8 @@ const plugins: Plugin[] = [
       ".vue": "ts",
     },
   }),
+
+
 ]
 
 const epOutput = path.resolve(projRoot, "dist")
@@ -215,6 +226,8 @@ export const buildModulesStyles = async () => {
     }),
   )
 }
+
+
 
 export async function copyScssFiles() {
   return gulp

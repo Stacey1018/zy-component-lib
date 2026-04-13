@@ -1,1 +1,1 @@
-import 'zy-component-lib/theme/button.scss'
+import '@zy-component-lib/theme/button.scss'
