@@ -1,133 +1,53 @@
-# 优化打包
+# 优化样式按需引入的打包产物
 
-可以看到现在虽然满足了样式按需引入，但是打包后的文件dist/button/style/index.ts是ts文件
+在第 03 篇里我们已经做到“组件按需注入样式入口”，例如 resolver 注入：
 
-所以我们要进行优化。
-
-```js
-import { defineConfig } from "vite" // 引入 Vite 官方方法，用于定义配置
-import vue from "@vitejs/plugin-vue" // 引入 Vue 插件，支持 .vue 文件的编译
-import dts from "vite-plugin-dts"    // 用于生成 TypeScript 类型声明文件 (.d.ts)
-import { viteStaticCopy } from "vite-plugin-static-copy"
-import path from "path"
-import fs from "fs"
-
-
-const packagesRoot = path.resolve(__dirname, "../packages")
-
-function getStyleEntryFiles() {
-  const dirs = fs.readdirSync(packagesRoot, { withFileTypes: true })
-
-  return dirs
-    .filter((dir) => dir.isDirectory())
-    .map((dir) => path.resolve(packagesRoot, dir.name, "style/index.ts"))
-    .filter((p) => fs.existsSync(p))
-}
-
-// const arr = getStyleEntryFiles().map((absPath) => {
-//   // 生成类似 "button/style/index" 这样的 key，
-//   // 在 preserveModules 下，会输出为 dist/button/style/index(.js)
-//   const rel = path
-//     .relative(packagesRoot, absPath)
-//     .replace(/\.ts$/, "") // 去掉 .ts 后缀
-//   return absPath
-// })
-// console.log('arr', arr)
-
-// 把入口路径单独拿出来，方便在 lib.entry 和 rollupOptions.input 里复用
-const libEntry = path.resolve(__dirname, "../packages/index.ts")
-console.log('libEntry', libEntry)
-// /Users/stacey/yuanmeng/yang/zy-component-lib/packages/index.ts
-
-function getStyleCopyTargets() {
-  const packagesDir = path.resolve(__dirname, "../packages")
-  const dirs = fs.readdirSync(packagesDir, { withFileTypes: true })
-  console.log('dirs', dirs)
-  return dirs
-    .filter((dir) => dir.isDirectory())
-    .map((dir) => {
-      const styleEntry = path.resolve(packagesDir, dir.name, "style/index.ts")
-      if (!fs.existsSync(styleEntry)) return null
-      return {
-        src: styleEntry,
-        dest: `${dir.name}/style`,
-      }
-    })
-    .filter(Boolean) as { src: string; dest: string }[]
-}
-
-// 导出 Vite 配置
-export default defineConfig({
-  plugins: [
-    vue(), // 使用 Vue 插件
-    dts({
-      entryRoot: path.resolve(__dirname, "../packages"), // 类型文件入口根目录，插件会扫描 packages 下的所有 TS/组件文件
-      outDir: "dist/types", // 类型文件输出目录为 dist/types
-      // 生成的 .d.ts 文件会按照目录结构保存在 dist/types 下
-      insertTypesEntry: true, // 插入类型入口文件
-      tsconfigPath: path.resolve(__dirname, "../tsconfig.build.json"),
-    }),
-    viteStaticCopy({
-      targets: [
-        // ...getStyleCopyTargets(),
-        {
-          src: path.resolve(__dirname, "../packages/theme"),
-          dest: "",
-        },
-      ],
-    }),
-  ],
-  build: {
-    outDir: "dist", // 打包输出目录为 dist
-    cssCodeSplit: true, // 按入口拆分 CSS，这样 button/style/index 会产出自己的 CSS，且 JS 里会带 import
-    lib: {
-      entry: [path.resolve(__dirname, "../packages/index.ts")], // 库入口文件
-      name: "ZyComponentLib", // UMD/IIFE 模式下挂载到 window/global 的变量名
-      fileName: (format, entryName) => `${entryName}.${format}.js`,
-      // fileName: (format) => `index.${format}.js`, // 输出文件名，格式化为 es/cjs/umd
-      // formats: ["es", "cjs", "umd"], // 输出格式：ESModule、CommonJS、UMD
-      formats: ["es", "cjs"], // 输出格式：ESModule、CommonJS  umd会导致inlineDynamicImports为true,导致和preserveModules冲突
-    },
-    rollupOptions: {
-      external: ["vue"], // 指定外部依赖，避免将 vue 打包进库
-      input: {
-        // 主库入口
-        lib: libEntry,
-        // 所有 style 入口
-        ...Object.fromEntries(
-          getStyleEntryFiles().map((absPath) => {
-            // 生成类似 "button/style/index" 这样的 key，
-            // 在 preserveModules 下，会输出为 dist/button/style/index(.js)
-            const rel = path
-              .relative(packagesRoot, absPath)
-              .replace(/\.ts$/, "") // 去掉 .ts 后缀
-            return [rel, absPath]
-          }),
-        ),
-      },
-      output: {
-        exports: "named", // 避免同时使用 default 和 named 导出时的警告
-        preserveModules: true,          // 如果开启，会保留原有目录结构，适合按需引入（注释掉表示不使用）
-        preserveModulesRoot: "packages", // preserveModules 时的根目录
-      },
-    },
-  },
-})
+```ts
+import "zy-component-lib/dist/button/style/index"
 ```
 
-问题：
+但此时会遇到两个工程化问题：
 
-文件packages/button/style/index.ts， 生成的 dist/button/style/index.es.js，内部是空的,因为packages/button/style/index.ts内部只有一行引入scss的语句，编译的时候，vite会单独处理css,导致打包后文件变空
+- **问题 1：`dist/<component>/style/index.ts` 仍是 TS 文件**（通过静态拷贝得到），对发布包不够友好。
+- **问题 2：如果把 `style/index.ts` 当成 rollup entry**，当它只有一行 `import "../../theme/button.scss"` 时，**编译后的 `index.es.js` 可能为空**（CSS 会被抽离，JS 入口被认为“没有运行时代码”）。
 
-# 解决
+本文目标：让最终发布包里存在**可被 import 的 JS 样式入口**，同时真正把主题样式输出成 **CSS 文件**，最终形成：
 
-问题：
+```text
+dist/
+  theme/
+    button.css
+  button/
+    style/
+      index.js        // import '../../theme/button.css'
+```
 
-当一个 entry 文件只有 CSS import 时，Rollup 会认为它没有 JS 运行时代码，从而把 JS 清空。
+## 原因解释：为什么 entry 只有 CSS import 会“变空”
 
-- 首先我们先处理下theme文件夹，之前是用插件将theme拷贝到了dist，现在我们将它编译后再放入dist
+当某个 entry 文件只有样式 import：
 
-`config/copy-style.ts`
+```ts
+import "../../theme/button.scss"
+```
+
+构建时样式会被抽离成单独的 css 资源，Rollup/Vite 可能会把该 entry 的 JS 内容清空（因为没有可执行的 JS 逻辑）。
+
+所以我们不强依赖“rollup 产出非空的 style entry JS”，而是改为：
+
+- **主题 scss → 预编译为 dist/theme/*.css**
+- **style/index.ts → 构建后生成 dist/<component>/style/index.js**，并把里面的 scss 引用改为 css 引用
+
+## 最终方案
+
+构建链路分三步：
+
+1. **预编译主题 scss**：`packages/theme/*.scss` → `dist/theme/*.css`
+2. **正常打包组件**：`vite build --config ./config/vite.config.prod.ts`（保留 `preserveModules` 等）
+3. **生成/覆盖样式入口 JS**：把 `packages/*/style/index.ts` 复制到 `dist/*/style/index.js`，并将其中的 `.scss` 全部替换为 `.css`
+
+### 1）预编译 theme：`config/build-theme.ts`
+
+（之前是静态拷贝 `packages/theme` 到 `dist/theme`，现在改为直接输出可被浏览器加载的 `.css`）
 
 ```ts
 import * as sass from "sass"
@@ -142,120 +62,52 @@ if (!fs.existsSync(outDir)) {
   fs.mkdirSync(outDir, { recursive: true })
 }
 
-const files = fg.sync("*.scss", {
-  cwd: themeDir,
-})
+const files = fg.sync("*.scss", { cwd: themeDir })
 
 files.forEach((file) => {
   const result = sass.compile(path.join(themeDir, file))
-
   const cssFile = file.replace(".scss", ".css")
-
   fs.writeFileSync(path.join(outDir, cssFile), result.css)
 })
 
 console.log("theme build success")
 ```
 
-- 打包配置
+### 2）组件打包配置要点
+
+- 开启 `preserveModules` + `preserveModulesRoot`
+- 不需要再用 `viteStaticCopy` 复制 `packages/theme`（因为 theme 已经编译到 `dist/theme`）
+
+（完整配置以 `config/vite.config.prod.ts` 为准，这里只强调思路。）
+
+### 3）生成样式入口 JS：`config/copy-style.ts`
+
+把 `packages/*/style/index.ts` 复制到 `dist/*/style/index.js`，并把其中的 `.scss` 改成 `.css`：
 
 ```ts
-import { defineConfig } from "vite" // 引入 Vite 官方方法，用于定义配置
-import vue from "@vitejs/plugin-vue" // 引入 Vue 插件，支持 .vue 文件的编译
-import dts from "vite-plugin-dts" // 用于生成 TypeScript 类型声明文件 (.d.ts)
-import path from "path"
-import fg from "fast-glob"
-
-const packagesRoot = path.resolve(__dirname, "../packages")
-
-const entryFiles = await fg("**/*.{js,ts,vue}", {
-  cwd: path.resolve(__dirname, "../packages"),
-  absolute: true,
-  onlyFiles: true,
-  ignore: ["**/__tests__/**"],
-})
-
-console.log("entryFiles", entryFiles)
-
-// 把入口路径单独拿出来，方便在 lib.entry 和 rollupOptions.input 里复用
-const libEntry = path.resolve(__dirname, "../packages/index.ts")
-console.log("libEntry", libEntry)
-// /Users/stacey/yuanmeng/yang/zy-component-lib/packages/index.ts
-
-// 导出 Vite 配置
-export default defineConfig({
-  plugins: [
-    vue(), // 使用 Vue 插件
-    dts({
-      entryRoot: path.resolve(__dirname, "../packages"), // 类型文件入口根目录，插件会扫描 packages 下的所有 TS/组件文件
-      outDir: "dist/types", // 类型文件输出目录为 dist/types
-      // 生成的 .d.ts 文件会按照目录结构保存在 dist/types 下
-      insertTypesEntry: true, // 插入类型入口文件
-      tsconfigPath: path.resolve(__dirname, "../tsconfig.build.json"),
-    }),
-  ],
-  build: {
-    outDir: "dist", // 打包输出目录为 dist
-    cssCodeSplit: true, // 按入口拆分 CSS，这样 button/style/index 会产出自己的 CSS，且 JS 里会带 import
-    lib: {
-      entry: entryFiles, // 库入口文件
-      name: "ZyComponentLib", // UMD/IIFE 模式下挂载到 window/global 的变量名
-      fileName: (format, entryName) => `${entryName}.${format}.js`,
-      // fileName: (format) => `index.${format}.js`, // 输出文件名，格式化为 es/cjs/umd
-      // formats: ["es", "cjs", "umd"], // 输出格式：ESModule、CommonJS、UMD
-      formats: ["es", "cjs"], // 输出格式：ESModule、CommonJS  umd会导致inlineDynamicImports为true,导致和preserveModules冲突
-    },
-    rollupOptions: {
-      external: ["vue"], // 指定外部依赖，避免将 vue 打包进库
-      output: {
-        exports: "named", // 避免同时使用 default 和 named 导出时的警告
-        preserveModules: true, // 如果开启，会保留原有目录结构，适合按需引入（注释掉表示不使用）
-        preserveModulesRoot: "packages", // preserveModules 时的根目录
-      },
-    },
-  },
-})
-```
-
-删除一些不必要的配置
-
-- 处理style/index.ts
-  将style/index.ts文件中的内容，scss改为css,再拷贝到对应的dist目录中
-
-```js
 import fs from "fs"
 import path from "path"
 import fg from "fast-glob"
 
 const root = process.cwd()
-
-// packages 目录
 const packagesDir = path.resolve(root, "packages")
-
-// dist 输出目录
 const distDir = path.resolve(root, "dist")
 
 async function copyStyle() {
-  // 找到所有 style/index.ts
-  const files = await fg("*/style/index.ts", {
-    cwd: packagesDir,
-  })
+  // 找到所有组件的 style/index.ts
+  const files = await fg("*/style/index.ts", { cwd: packagesDir })
 
   for (const file of files) {
     const absPath = path.resolve(packagesDir, file)
 
     let content = fs.readFileSync(absPath, "utf-8")
 
-    // 把 scss 改成 css
+    // 发布包里我们只保留对 dist/theme/*.css 的引用
     content = content.replace(/\.scss/g, ".css")
 
-    // 输出路径
+    // 输出为 JS（因为最终要给用户 import）
     const outFile = path.resolve(distDir, file.replace(".ts", ".js"))
-
-    // 创建目录
     fs.mkdirSync(path.dirname(outFile), { recursive: true })
-
-    // 写入文件
     fs.writeFileSync(outFile, content)
   }
 
@@ -265,7 +117,9 @@ async function copyStyle() {
 copyStyle()
 ```
 
-# package.json
+## 构建命令（package.json）
+
+建议把构建串起来：
 
 ```json
 {
@@ -273,52 +127,31 @@ copyStyle()
 }
 ```
 
-打包目录
+## 验证产物
 
-```js
-├── dist
-│   ├── button
-│   │   ├── index.cjs.js
-│   │   ├── index.es.js
-│   │   ├── src
-│   │   │   ├── button.vue.cjs.js
-│   │   │   ├── button.vue.cjs2.js
-│   │   │   ├── button.vue.es.js
-│   │   │   └── button.vue.es2.js
-│   │   └── style
-│   │       ├── index.cjs.js
-│   │       ├── index.es.js
-│   │       └── index.js
-│   ├── index.cjs.js
-│   ├── index.es.js
-│   ├── theme
-│   │   └── button.css
-│   ├── types
-│   │   ├── button
-│   │   │   ├── index.d.ts
-│   │   │   ├── src
-│   │   │   └── style
-│   │   ├── button.vue.d.ts
-│   │   ├── index.d.ts
-│   │   ├── resolver.d.ts
-│   │   ├── utils
-│   │   │   ├── resolver.d.ts
-│   │   │   └── withInstall.d.ts
-│   │   └── withInstall.d.ts
-│   ├── utils
-│   │   ├── resolver.cjs.js
-│   │   ├── resolver.es.js
-│   │   ├── withInstall.cjs.js
-│   │   └── withInstall.es.js
-│   └── vite.svg
+打包后应看到类似目录（省略无关文件）：
+
+```text
+dist/
+  theme/
+    button.css
+  button/
+    style/
+      index.js
 ```
 
-此时
-dist/button/style/index.js
+并且 `dist/button/style/index.js` 内容类似：
+
 ```js
-import '../../theme/button.css'
+import "../../theme/button.css"
 ```
 
-运行play检验
+最后运行 `play` 验证：
+
 ![alt text](./images/04/image.png)
 
+## 常见坑
+
+- **忘记先 `build-theme`**：会导致 `dist/theme/*.css` 不存在，运行时或构建时出现找不到文件。
+- **`copy-style` 没在最后执行**：会导致 `dist/<component>/style/index.js` 不存在或仍然引用 `.scss`。
+- **路径约定不一致**：`style/index.ts` 里对 `../../theme/...` 的相对路径要和最终 `dist` 目录结构一致。
