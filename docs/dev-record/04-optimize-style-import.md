@@ -313,6 +313,12 @@ copyStyle()
 │   └── vite.svg
 ```
 
+此时
+dist/button/style/index.js
+```js
+import '../../theme/button.css'
+```
+
 运行play检验
 ![alt text](./images/04/image.png)
 
